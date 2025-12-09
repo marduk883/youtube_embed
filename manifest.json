@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "YouTube Safe Embed Example",
+  "name": "XP Start Page",
   "version": "1.0",
 
   "chrome_url_overrides": {
@@ -8,11 +8,11 @@
   },
 
   "permissions": [],
-  
+
   "web_accessible_resources": [
     {
-      "resources": ["embed-proxy.html"],
-      "matches": ["<all_urls>"]
+      "resources": [ "index.html" ],
+      "matches": [ "<all_urls>" ]
     }
   ]
 }
