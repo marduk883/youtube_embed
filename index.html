@@ -2,17 +2,31 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Proxy Embed</title>
+    <title>Video Proxy</title>
     <style>
-        body, html { margin: 0; padding: 0; }
+        body, html { margin: 0; padding: 0; overflow: hidden; }
         iframe { width: 100vw; height: 100vh; border: none; }
     </style>
 </head>
 <body>
-    <iframe
-        src="https://www.youtube.com/embed/pN9aec4QjRQ?enablejsapi=1"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        allowfullscreen>
-    </iframe>
+
+<script>
+    // ?v=XXXXX parametresini al
+    const urlParams = new URLSearchParams(window.location.search);
+    const videoId = urlParams.get("v");
+
+    // Video ID yoksa hata göster
+    if (!videoId) {
+        document.body.innerHTML = "<h3 style='font-family:sans-serif;'>Video bulunamadı.</h3>";
+    } else {
+        // Dinamik olarak iframe ekle
+        const iframe = document.createElement("iframe");
+        iframe.src = `https://www.youtube.com/embed/${videoId}?enablejsapi=1`;
+        iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+        iframe.allowFullscreen = true;
+        document.body.appendChild(iframe);
+    }
+</script>
+
 </body>
 </html>
