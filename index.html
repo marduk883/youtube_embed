@@ -41,6 +41,26 @@
                     'onStateChange': onPlayerStateChange
                 }
             });
+
+            // Tüm tıklamaları yakala ve yeni sekme açılmasını engelle
+            // ve player'da video değiştir
+            setTimeout(() => {
+                const iframe = document.querySelector('iframe');
+                if (iframe) {
+                    iframe.contentWindow.document.addEventListener('click', function(e) {
+                        let el = e.target;
+                        while (el && el.tagName !== 'A') el = el.parentElement;
+                        if (el && el.href && el.href.includes('youtube.com/watch')) {
+                            e.preventDefault();
+                            const url = new URL(el.href);
+                            const newId = url.searchParams.get('v');
+                            if (newId) {
+                                player.loadVideoById(newId);
+                            }
+                        }
+                    }, true);
+                }
+            }, 2000); // iframe yüklenmesi için bekle
         };
 
         let lastVideoId = videoId;
