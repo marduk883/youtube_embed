@@ -18,11 +18,42 @@
     if (!videoId) {
         document.body.innerHTML = "<h3 style='font-family:sans-serif;'>Video bulunamadı.</h3>";
     } else {
-        const iframe = document.createElement("iframe");
-        iframe.src = `https://www.youtube.com/embed/${videoId}?enablejsapi=1`;
-        iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
-        iframe.allowFullscreen = true;
-        document.body.appendChild(iframe);
+        const playerDiv = document.createElement('div');
+        playerDiv.id = 'player';
+        document.body.appendChild(playerDiv);
+
+        const tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        document.body.appendChild(tag);
+
+        let player;
+        window.onYouTubeIframeAPIReady = function() {
+            player = new YT.Player('player', {
+                height: '100%',
+                width: '100%',
+                videoId: videoId,
+                playerVars: {
+                    'autoplay': 0,
+                    'controls': 1,
+                    'rel': 1 // önerilen videoları göster
+                },
+                events: {
+                    'onStateChange': onPlayerStateChange
+                }
+            });
+        };
+
+        let lastVideoId = videoId;
+        function onPlayerStateChange(event) {
+            try {
+                const currentUrl = player.getVideoUrl();
+                const match = currentUrl.match(/[?&]v=([^&]+)/);
+                if (match && match[1] && match[1] !== lastVideoId) {
+                    lastVideoId = match[1];
+                    window.parent.postMessage({ type: 'videoChanged', videoId: lastVideoId }, '*');
+                }
+            } catch (e) {}
+        }
     }
 
 </script>
