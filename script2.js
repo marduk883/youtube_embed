@@ -7,7 +7,7 @@ if (!videoId) {
 } else {
     // Dinamik olarak iframe ekle
     const iframe = document.createElement("iframe");
-    iframe.src = `https://www.youtube.com/embed/${videoId}?enablejsapi=1`;
+    iframe.src = https://www.youtube.com/embed/${videoId}?enablejsapi=1&autoplay=1;
     iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
     iframe.allowFullscreen = true;
     document.body.appendChild(iframe);
